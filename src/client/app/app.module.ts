@@ -9,12 +9,13 @@ import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { ChartsModule } from './charts/charts.module';
 
 
 @NgModule({
   imports: [BrowserModule, CoreModule,
     HttpClientModule, AppRoutingModule,
-    AboutModule, HomeModule,
+    AboutModule, ChartsModule, HomeModule,
     SharedModule.forRoot()],
   declarations: [AppComponent],
   providers: [{
