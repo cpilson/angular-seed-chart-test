@@ -54,6 +54,13 @@ export class ProjectConfig extends SeedConfig {
         path: 'node_modules/chart.js/dist/Chart.min.js'
       },
       {
+        name: 'angular2-chartjs',
+        path: 'node_modules/angular2-chartjs',
+        packageMeta: {
+          main: 'dist/index',
+        }
+      },
+      {
         name: '@ng-bootstrap/ng-bootstrap',
         path: 'node_modules/@ng-bootstrap/ng-bootstrap',
         packageMeta: {

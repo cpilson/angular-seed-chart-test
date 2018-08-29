@@ -1,14 +1,24 @@
 <h1>Here are your charts!</h1>
 
-<div class="text-center">ChartJS<button class="btn btn-primary pull-right ml-2">Refresh Data</button>
-    <div class="row">
-        <div class="col-md-12 col-xl-6 col-lg-6">
-            <canvas id="chartjs-pie" class="chart chart-pie" chart-data="data" chart-labels="labels" chart-options="options">
-            </canvas>
-        </div>
-        <div class="col-md-12 col-xl-6 col-lg-6">
-            <canvas id="chartjs-bar" class="chart chart-bar" chart-data="dataBar" chart-labels="labelsBar" chart-options="optionsBar">
-            </canvas>
-        </div>
+<div class="text-center">ChartJS
+  <button class="btn btn-primary pull-right ml-2">Refresh Data</button>
+  <!--<div class="row">Canvas:-->
+    <!--<div class="col-md-12 col-xl-6 col-lg-6">-->
+      <!--<canvas id="chartjs-pie" class="chart chart-pie" chart-data="data" chart-labels="labels" chart-options="options">-->
+      <!--</canvas>-->
+    <!--</div>-->
+    <!--<div class="col-md-12 col-xl-6 col-lg-6">-->
+      <!--<canvas id="chartjs-bar" class="chart chart-bar" chart-data="dataBar" chart-labels="labelsBar"-->
+              <!--chart-options="optionsBar">-->
+      <!--</canvas>-->
+    <!--</div>-->
+  <!--</div>-->
+  <div class="row">Wrapper:
+    <div class="col-md-12 col-xl-6 col-lg-6">
+      <chart [type]="chartType1" [data]="sharedData" [options]="sharedOptions"></chart>
     </div>
+    <div class="col-md-12 col-xl-6 col-lg-6">
+      <chart [type]="chartType2" [data]="sharedData" [options]="sharedOptions"></chart>
+    </div>
+  </div>
 </div>
