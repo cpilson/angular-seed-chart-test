@@ -46,14 +46,25 @@ export class ChartsComponent {
 
   public onSortData = (chartSharedDataValues: any): any => {
     // sort sharedData.datasets.data and keep sharedData.labels with their data
-    console.log(`==>sharedData: `, this.sharedData, `\n==>data: `, chartSharedDataValues.datasets[0].data);
-    // return data.datasets.data;
-    this.sharedData.datasets.data = chartSharedDataValues.datasets[0].data.sort();
-    // this.sharedData.datasets.data = [null];
-    console.log(`==>sorted data: `, this.sharedData.datasets.data);
-    // _.forEach(this.charts, (c) => { c.chart.update(); });
+    console.log(`==>sharedData: `, this.sharedData, `\n==>data: `, chartSharedDataValues);
+    // this.sharedData.datasets.data = chartSharedDataValues.datasets[0].data.sort();
+    // console.log(`====>sort: `, _.sortBy(chartSharedDataValues, [chartSharedDataValues.labels]));
+    // this.sharedData.datasets.data = _.sortBy(chartSharedDataValues, [chartSharedDataValues.datasets[0].data]);
+    // this.sharedData.datasets[0] = _.sortBy(chartSharedDataValues.datasets[0], [chartSharedDataValues.datasets[0].data]);
+    const labelMap = new Map;
+    _.forEach(chartSharedDataValues.labels, (l: any, i: number) => {
+      labelMap.set(chartSharedDataValues.datasets[0].data[i], l);
+    });
+    console.log(`===>labelMap: `, labelMap);
+    this.sharedData.datasets[0].data = chartSharedDataValues.datasets[0].data.sort();
+    // shove our labels back in the order that the data went:
+    let labels = [];
+    _.forEach(chartSharedDataValues.datasets[0].data, (d: any) => {
+      labels.push(labelMap.get(d));
+    });
+    this.sharedData.labels = labels;
+    console.log(`==>sorted: `, this.sharedData);
     this.chart.chart.update();
-    // console.log(`==> this.chart: `, this.chart);
   }
 
   // public updateChart = (chart: any, labels: Array<string>, data: any): any => {
