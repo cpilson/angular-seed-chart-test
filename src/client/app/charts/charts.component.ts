@@ -1,24 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import { ChartComponent } from 'angular2-chartjs';
+import * as _ from 'lodash';
 
 /**
  * This class represents the lazy loaded ChartsComponent.
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-charts',
+  selector: 'chart-1',
   templateUrl: 'charts.component.html',
   styleUrls: ['charts.component.css']
 })
 
 export class ChartsComponent {
-  canvas: any;
-  canvasBar: any;
-  ctx: any;
-  ctxBar: any;
-  chartType1 = 'line';
-  chartType2 = 'bar';
-  chartType3 = 'horizontalBar';
-  sharedData: any = {
+  public chartType1 = 'line';
+  public chartType2 = 'bar';
+  public chartType3 = 'horizontalBar';
+  @ViewChild(ChartComponent) chart: ChartComponent;
+  @ViewChildren(ChartComponent) charts !: QueryList<ChartComponent>;
+  public sharedData: any = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
@@ -27,62 +27,57 @@ export class ChartsComponent {
       }
     ]
   };
-  sharedOptions: any = {
+  public sharedOptions: any = {
     responsive: true,
     maintainAspectRatio: false
   };
 
-  // ngAfterViewInit() {
-  //   this.canvas = document.getElementById('chartjs-pie');
-  //   this.ctx = this.canvas.getContext('2d');
-  //   const myChart = new Chart(this.ctx, {
-  //     type: 'pie',
-  //     data: {
-  //       labels: ['New', 'In Progress', 'On Hold', 'Unknown'],
-  //       datasets: [{
-  //         label: '# of Votes',
-  //         data: [this.randomScalingFactor(), this.randomScalingFactor(), this.randomScalingFactor(), this.randomScalingFactor()],
-  //         backgroundColor: [
-  //           'rgba(255, 99, 132, 1)',
-  //           'rgba(54, 162, 235, 1)',
-  //           'rgba(255, 206, 86, 1)',
-  //           'rgba(152, 152, 71, 70)',
-  //         ],
-  //         borderWidth: 1
-  //       }]
-  //     },
-  //     options: {
-  //       responsive: true
-  //     }
+  constructor() {}
+
+  public sortByNumberDesc = (a: number, b: number) => {
+    if (b < a) {
+      return -1;
+    }
+    if (b > a) {
+      return 1;
+    }
+    return 0;
+  }
+
+  public onSortData = (chartSharedDataValues: any): any => {
+    // sort sharedData.datasets.data and keep sharedData.labels with their data
+    console.log(`==>sharedData: `, this.sharedData, `\n==>data: `, chartSharedDataValues.datasets[0].data);
+    // return data.datasets.data;
+    this.sharedData.datasets.data = chartSharedDataValues.datasets[0].data.sort();
+    // this.sharedData.datasets.data = [null];
+    console.log(`==>sorted data: `, this.sharedData.datasets.data);
+    // _.forEach(this.charts, (c) => { c.chart.update(); });
+    this.chart.chart.update();
+    // console.log(`==> this.chart: `, this.chart);
+  }
+
+  // public updateChart = (chart: any, labels: Array<string>, data: any): any => {
+  //   // Remove data:
+  //   if (!chart) {
+  //     chart = this.chartType1;
+  //   }
+  //   if (!labels) {
+  //     labels = chart.data.labels.pop();
+  //   }
+  //   chart.data.datasets.forEach((dataset: any) => {
+  //     dataset.data.pop();
   //   });
-  //   this.canvasBar = document.getElementById('chartjs-bar');
-  //   this.ctxBar = this.canvasBar.getContext('2d');
   //
-  //   const dataBar = {
-  //     labels: ['New', 'In Progress', 'On Hold', 'Unknown'],
-  //     datasets: [{
-  //       label: '# of Votes',
-  //       data: [this.randomScalingFactor(), this.randomScalingFactor(), this.randomScalingFactor(), this.randomScalingFactor()],
-  //       backgroundColor: [
-  //         'rgba(255, 99, 132, 1)',
-  //         'rgba(54, 162, 235, 1)',
-  //         'rgba(255, 206, 86, 1)',
-  //         'rgba(152, 152, 71, 70)',
-  //       ],
-  //       borderWidth: 1
-  //     }]
-  //   };
-  //
-  //   const optionsBar = {responsive: true};
-  //
-  //   const barChart = new Chart(this.ctxBar, {
-  //     type: 'bar',
-  //     data: dataBar,
-  //     options: optionsBar
+  //   // Add data:
+  //   _.forEach(labels, (label) => { chart.data.labels.push(label); });
+  //   chart.data.datasets.forEach((dataset: any) => {
+  //     dataset.data.push(data);
   //   });
+  //
+  //   chart.update();
   // }
 
-  randomScalingFactor = () => {
+  public randomScalingFactor = (): number => {
     return Math.round(Math.random() * 100);
   }
 
